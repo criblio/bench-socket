@@ -10,8 +10,11 @@ fi
 
 PORT=8080
 WORKERS=4
+TEST=$1
+
 echo Starting server ... 
-node src/passthru.js $PORT $WORKERS &
+node src/$TEST.js $PORT $WORKERS &
+sleep 1
 
 echo Generating 10MB payload data ...
 head -c 10M </dev/urandom > test.data

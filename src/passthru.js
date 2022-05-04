@@ -1,7 +1,17 @@
 const http = require('http');
 const cluster = require('cluster');
 const fs = require('fs');
-const net = require('net');
+
+/**
+ * Starts:
+ *  1. HTTP server listening, by default, on port 8080
+ *    - receives requests, parses the headers and routes to a worker 
+ *    - all data traverses this server, but no processing is done beyond headers 
+ *    - HTTP request/response body are simply copied/proxied
+ *  2. Starts, by default, 3 worker processes who standup and HTTP server and listen on unix domain socket 
+ *    - they simply read the request body and 
+ *    - respond with a minimal 200 OK back 
+ */
 
 const unixDomainPath = '/tmp/worker.http'
 
@@ -28,21 +38,21 @@ const masterListener = function (req, res) {
     proxyResp.pause();
     res.writeHead(proxyResp.statusCode, proxyResp.headers); // send headers 
     proxyResp.pipe(res);  // pipe worker response body to client
-    proxyResp.resume();
   })
   .on('error', err => {
-    console.log(err);
-    res.end();
+    if(err.code !== 'EPIPE') console.log(err);
+    res.end(); // don't let response hanging in case of error
   });
 
-  // pipe requst to 
+  // pipe client request *data* to proxied request 
   req.pipe(proxiedReq);
-  req.resume();
 };
 
 const workerListener = function (req, res) {
   req.on('data', () => {});
-  req.on('end', () => { res.end() });
+  req.on('end', () => { 
+    res.end('some response data here');
+  });
 };
 
 
@@ -53,7 +63,7 @@ function startWorkerServer() {
   server.listen({path}, () => process.stderr.write(`listening on path=${path}\n`));
 }
 
-const workers = Number(process.argv[3] || 3);
+const workers = Number(process.argv[3] || 4);
 if(cluster.isMaster) {
   const server = http.createServer(masterListener);
   const port = process.argv[2] || 8080;
