@@ -19,16 +19,16 @@ To evaluate the performance we chose to use `ab` and measure the total data thru
 
 ## Results 
 Connection reuse: **NO**
-| Test  | Thruput w/ 10MB Req | Thruput w/ 1MB Req |
-| - | -: | -: | 
-| cluster | 374 r/s| 1397 r/s |
-| socket | 167 r/s | 258 r/s | 
-| passthru |  87 r/s| 578 r/s|
+| Test  | Thruput w/ 10MB Req | Thruput w/ 1MB Req | Notes |
+| - | -: | -: | :- |
+| cluster | 3.74 GBps| 1.39 GBps |
+| socket | 1.67 GBps | 0.25 GBps | Signifcant thruput drop
+| passthru |  0.87 GBps| 0.57 GBps | master process at 100% CPU
 
 
 Connection reuse: **YES** 
-| Test  | Thruput w/ 10MB Req | Thruput w/ 1MB Req |
-| - | -: | -: | 
-| cluster | 461 r/s | 3059 r/s |
-| socket | 301 r/s | 2662 r/s |
-| passthru | 100 r/s | 680 r/s | 
+| Test  | Thruput w/ 10MB Req | Thruput w/ 1MB Req | Notes |
+| - | -: | -: | :- |
+| cluster | 4.61 GBps | 3.05 GBps |
+| socket | 3.01 GBps | 2.66 GBps | Thruput drop in line with cluster 
+| passthru | 1.00 GBps | 0.68 GBps | master process at 100% CPU
