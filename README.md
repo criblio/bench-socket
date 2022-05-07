@@ -20,8 +20,14 @@ To evaluate the performance we chose to use `ab` and measure the total data thru
 ## Results 
 | Test  | Thruput w/ 10MB Req | Thruput w/ 1MB Re |
 | - | - | - | 
-| cluster | 3.92 GBps | 2.23 GBps |
-| socket | 1.26 GBps | 0.2 GBps | 
-| passthru | 0.97 GBps | 0.7 GBps |
+| cluster | 374 r/s| 1397 r/s |
+| socket | 167 | 258 r/s | 
+| passthru |  87 r/s| 578 r/s|
 
 
+Connection reuse 
+| Test  | Thruput w/ 10MB Req | Thruput w/ 1MB Re |
+| - | - | - | 
+| cluster | 461 r/s | 3059 r/s |
+| socket | 301 r/s | 2662 r/s |
+| passthru | 100 r/s | 680 r/s | 
