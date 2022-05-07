@@ -18,6 +18,7 @@ To evaluate the performance we chose to use `ab` and measure the total data thru
 
 
 ## Results 
+Connection reuse: **NO**
 | Test  | Thruput w/ 10MB Req | Thruput w/ 1MB Re |
 | - | - | - | 
 | cluster | 374 r/s| 1397 r/s |
@@ -25,7 +26,7 @@ To evaluate the performance we chose to use `ab` and measure the total data thru
 | passthru |  87 r/s| 578 r/s|
 
 
-Connection reuse 
+Connection reuse: **YES** 
 | Test  | Thruput w/ 10MB Req | Thruput w/ 1MB Re |
 | - | - | - | 
 | cluster | 461 r/s | 3059 r/s |
